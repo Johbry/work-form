@@ -10,45 +10,61 @@ const toStop = async (time) =>{
 async function openPage() {
 
 let driver = await new Builder().forBrowser(Browser.CHROME).build();
-await driver.get('https://hiringroom.com/jobs/get_vacancy/63f7666172e7a655e042aef2/candidates/new?source=linkedinjobs#step2')
+await driver.get('https://hiringroom.com/jobs/get_vacancy/64244bafc187c967d9e2ee5d/candidates/new?source=linkedinjobs#step2')
 await driver.manage().window().maximize();
 await toStop(1000);
 
-const sendPhoto = await driver.findElement(By.xpath("//input[@type='file']"));
-await sendPhoto.sendKeys('C:/Users/johbr/Documents/work_form/IMG_20230127_213959 (2).jpg');
+//const sendPhoto = await driver.findElement(By.xpath("//input[@type='file']"));
+//await sendPhoto.sendKeys('C:/Users/johbr/Documents/work_form/IMG_20230127_213959 (2).jpg');
+//await toStop(1000);
+
+const formData = async (name, lastName, email, confEmail, document, phone) => {
+    if (name) {
+        let nameuser = await driver.findElement(By.id("firstname"));
+        await nameuser.sendKeys(name);
+    }
+    if (lastName) {
+        let lastname = await driver.findElement(By.id("lastname"));
+        await lastname.sendKeys(lastName);
+    }
+    if (email) {
+        let mailuser = await driver.findElement(By.id("email"));
+        await mailuser.sendKeys(email);
+    }
+    if (confEmail) {
+        let confiEmail = await driver.findElement(By.id("emailConfirm"));
+        await confiEmail.sendKeys(confEmail);
+    }
+    if (document) {
+        let dniuser = await driver.findElement(By.id("dni"));
+        await dniuser.sendKeys(document);
+    }
+    if (phone) {
+        let numberuser = await driver.findElement(By.css('.sc-gtsrHT.dIVqQs input[type="number"]'));
+        await numberuser.sendKeys(phone);
+    }
+}
+
+await formData('Johbry', 'Mellado', 'johbrym@gmail.com', 'johbrym@gmail.com', '96036665', '1139284867');
+
 await toStop(1000);
-
-
-let nameuser = await driver.findElement(By.id("firstname"));
-await nameuser.sendKeys('eve');
-await toStop(1000);
-
-let lastname = await driver.findElement(By.id("lastname"));
-await lastname.sendKeys('Mel');
-
-let mailuser = await driver.findElement(By.id("email"));
-await mailuser.sendKeys('jmel@gmail.com');
-
-let confiEmail = await driver.findElement(By.id("emailConfirm"));
-await confiEmail.sendKeys('jmel@gmail.com');
-
-let dniuser = await driver.findElement(By.id("dni"));
-await dniuser.sendKeys('96000000');
-await toStop(1000);
-
-let numberuser = await driver.findElement(By.css('.sc-gtsrHT.dIVqQs input[type="number"]'));
-await numberuser.sendKeys('1139200000');
 
 let selectAll = await driver.findElements(By.css(".custom-hr-select-container"));
-const selectTypePhone = selectAll[0];
-const selectGender = selectAll[1];
-const selectCountry = selectAll[2];
-const selectResident = selectAll[3];
-const selectState = selectAll[4];
-const selectProvince = selectAll[5];
-const selectDay = selectAll[6];
-const selectMonth = selectAll[7];
-const selectYear = selectAll[8];
+const selecttypeDocument = selectAll[0]
+const selectTypePhone = selectAll[1];
+const selectGender = selectAll[2];
+const selectCountry = selectAll[3];
+const selectResident = selectAll[4];
+const selectState = selectAll[5];
+const selectProvince = selectAll[6];
+const selectDay = selectAll[7];
+const selectMonth = selectAll[8];
+const selectYear = selectAll[9];
+
+await selecttypeDocument.click();
+await toStop(1000);
+const documentOption = await driver.findElement(By.css(".custom-hr-select-container .custom-hr-select__menu .custom-hr-select__option:nth-child(1)"));
+await documentOption.click();
 
 await selectTypePhone.click();
 await toStop(1000);
@@ -98,6 +114,10 @@ await selectYear.click();
 let yearOption = await driver.findElement(By.css(".custom-hr-select-container .custom-hr-select__menu-list .custom-hr-select__option:nth-child(33)"));
 await yearOption.click();
 await toStop(1000);
+
+let address = await driver.findElement(By.id("permanent_address"))
+await address.sendKeys('Reconquista 1000');
+await toStop(100);
 
 let buttonNext = await driver.findElement(By.css(".sc-fnVZcZ.jqdEKA.postulation-next-step"));
 await buttonNext.click();
